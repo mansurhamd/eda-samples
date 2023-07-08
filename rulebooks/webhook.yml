@@ -25,5 +25,5 @@
       condition: event.payload.message == "debug"
       action:
         run_job_template:
-          name: InstruqtSandboxFailure
+          name: 'Demo Job Template'
           organization: Default
