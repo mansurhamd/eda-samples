@@ -8,12 +8,12 @@
         port: 5000
   ## Define the conditions we are looking for
   rules:
-    - name: Say Hello
-      condition: event.payload.message == "Hello"
-  ## Define the action we should take should the condition be met
-      action:
-        run_playbook:
-          name: ../playbooks/say-what.yml
+  #   - name: Say Hello
+  #     condition: event.payload.message == "Hello"
+  # ## Define the action we should take should the condition be met
+  #     action:
+  #       run_playbook:
+  #         name: ../playbooks/say-what.yml
     
     - name: Debug
       condition: event.payload.message == "debug"
