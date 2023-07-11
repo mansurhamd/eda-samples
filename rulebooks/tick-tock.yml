@@ -1,0 +1,12 @@
+---
+- name: Delayed comparison
+  hosts: all
+  sources:
+  - ansible.eda.tick:
+      delay: 2
+  rules:
+    - name: r1
+      condition: event.i > 0
+      action:
+        print_event:
+          pretty: true
