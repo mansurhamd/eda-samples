@@ -1,0 +1,9 @@
+- name: remove specific file
+  hosts: all
+  gather_facts: false
+  tasks:
+  - name: remove file
+    ansible.builtin.file:
+      path: /root/test/big_file
+      state: absent
+  
