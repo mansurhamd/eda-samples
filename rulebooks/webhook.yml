@@ -27,3 +27,5 @@
         run_job_template:
           name: 'Remediate Low Disk Space'
           organization: Default
+          job_args:
+            limit: "{{ event.payload.affected }}"
