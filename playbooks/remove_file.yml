@@ -4,6 +4,6 @@
   tasks:
   - name: remove file
     ansible.builtin.file:
-      path: /root/test/big_file
+      path: /tmp/big_file
       state: absent
   
