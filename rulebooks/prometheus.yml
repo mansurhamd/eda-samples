@@ -1,0 +1,47 @@
+---
+- name: Listen for Prometheus events
+  hosts: all
+
+  sources:
+    - ansible.eda.alertmanager:
+        host: 0.0.0.0
+        port: 5000
+        data_alerts_path: alerts
+
+  rules:
+    - name: Disk Full
+      condition:  event.alert.labels.alertname == "HostOutOfDiskSpace" and event.alert.status == "firing"
+      action:
+        run_job_template:
+          name: Prometheus_disk_full
+          organization: Default
+          job_args:
+            extra_vars: 
+              mountpoint: "{{ event.alert.labels.mountpoint }}"
+              instance: "{{ event.alert.labels.instance }}"
+            limit: "{{ event.alert.labels.instance }}"
+
+
+    - name: Memory full
+      condition:  event.alert.labels.alertname == "HighMemoryUtilization" and event.alert.status == "firing"
+      action:
+        run_job_template:
+          name: Prometheus_memory_full
+          organization: Default
+          job_args:
+            extra_vars: 
+              instance: "{{ event.alert.labels.instance }}"
+            limit: "{{ event.alert.labels.instance }}"
+
+    - name: Application down 
+      condition:  event.alert.labels.alertname == "application_down" and event.alert.status == "firing"
+      action:
+        run_job_template:
+          name: Prometheus_application_down
+          organization: Default
+          job_args:
+            extra_vars: 
+              instance: "{{ event.alert.labels.instance }}"
+              application: "{{ event.alert.labels.name }}"
+            limit: "{{ event.alert.labels.instance }}"
+
