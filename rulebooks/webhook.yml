@@ -8,24 +8,24 @@
         port: 5000
   ## Define the conditions we are looking for
   rules:
-  #   - name: Say Hello
-  #     condition: event.payload.message == "Hello"
-  # ## Define the action we should take should the condition be met
-  #     action:
-  #       run_playbook:
-  #         name: ../playbooks/say-what.yml
-    
-    - name: Debug
+
+    - name: Debug if non empty
+      condition: event.payload != ""
+      action:
+        debug:
+          var: event
+
+    - name: Debug if message is debug
       condition: event.payload.message == "debug"
   ## Define the action we should take should the condition be met
       action:
         debug:
 
-    - name: Remediate Job
-      condition: event.payload.message == "Low Disk Space"
-      action:
-        run_job_template:
-          name: 'Remediate Low Disk Space'
-          organization: Default
-          job_args:
-            limit: "{{ event.payload.affected }}"
+    # - name: Remediate Job
+    #   condition: event.payload.message == "Low Disk Space"
+    #   action:
+    #     run_job_template:
+    #       name: 'Remediate Low Disk Space'
+    #       organization: Default
+    #       job_args:
+    #         limit: "{{ event.payload.affected }}"
