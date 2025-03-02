@@ -1,6 +1,6 @@
 ---
 - name: Listen for events on a webhook
-  hosts: all
+  hosts: localhost
   ## Define our source for events
   sources:
     - name: Webhook
@@ -10,7 +10,7 @@
   ## Define the conditions we are looking for
   rules:
 
-    - name: Debug if non empty
+    - name: Always Debug
       condition: true
       action:
         debug:
