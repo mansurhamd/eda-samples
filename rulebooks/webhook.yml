@@ -10,10 +10,9 @@
   rules:
 
     - name: Debug if non empty
-      condition: event.payload != ""
+      condition: event.payload is defined
       action:
         debug:
-          var: event
 
     - name: Debug if message is debug
       condition: event.payload.message == "debug"
