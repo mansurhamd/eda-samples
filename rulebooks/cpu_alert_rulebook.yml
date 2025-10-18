@@ -1,0 +1,23 @@
+---
+sources:
+  - name: webhook
+    type: webhook
+
+rules:
+  - name: CPU High Alert Rule
+    condition: event.body.alert_type == "CPU_HIGH"
+    action:
+      run_job_template:
+        name: "CPU High Alert Remediation"
+        organization: "Default"
+        extra_vars:
+          event: "{{ event }}"
+
+  - name: CPU Diagnostic Rule
+    condition: event.body.alert_type == "CPU_WARN"
+    action:
+      run_job_template:
+        name: "CPU Alert Info"
+        organization: "Default"
+        extra_vars:
+          event: "{{ event }}"
