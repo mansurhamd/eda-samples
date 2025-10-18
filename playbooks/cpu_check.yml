@@ -1,0 +1,8 @@
+---
+- name: CPU High Alert received
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Show event info
+      debug:
+        msg: "Received CPU_HIGH alert from {{ event.body.host }} (CPU={{ event.body.cpu }}%)"
