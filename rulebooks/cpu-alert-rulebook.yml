@@ -1,22 +1,23 @@
 ---
-- name: Delayed comparison
-  hosts: all
-  sources:
-  - ansible.eda.generic:
-      payload:
-        - friend_list:
-            names:
-               - fred
-               - barney
-        - request:
-            type: Delete
-            friend_name: fred
-  rules:
-    - name: r1
-      condition:
-        all:
-          - event.request.type == "Delete"
-          - event.friend_list.names is select("search",  events.m_0.request.friend_name)
-      action:
-        print_event:
-          pretty: true
+sources:
+  - name: webhook
+    type: webhook
+
+rules:
+  - name: CPU High Alert Rule
+    condition: event.body.alert_type == "CPU_HIGH"
+    action:
+      run_job_template:
+        name: "CPU High Alert Remediation"
+        organization: "Default"
+        extra_vars:
+          event: "{{ event }}"
+
+  - name: CPU Diagnostic Rule
+    condition: event.body.alert_type == "CPU_WARN"
+    action:
+      run_job_template:
+        name: "CPU Alert Info"
+        organization: "Default"
+        extra_vars:
+          event: "{{ event }}"
