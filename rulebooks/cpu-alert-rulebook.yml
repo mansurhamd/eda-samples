@@ -13,7 +13,7 @@ rules:
         extra_vars:
           event: "{{ event }}"
 
-  - name: CPU Diagnostic Rule
+  - name: CPU Warning Alert Rule
     condition: event.body.alert_type == "CPU_WARN"
     action:
       run_job_template:
@@ -21,3 +21,7 @@ rules:
         organization: "Default"
         extra_vars:
           event: "{{ event }}"
+
+  - name: CPU Normal Rule
+    condition: event.body.alert_type == "CPU_NORMAL"
+    action: []
