@@ -1,0 +1,19 @@
+---
+- name: Auto remediate high CPU usage
+  hosts: "{{ event.body.host | default('localhost') }}"
+  become: yes
+  gather_facts: no
+  tasks:
+    - name: Gather top 5 CPU processes
+      shell: ps -eo pid,comm,%cpu --sort=-%cpu | head -n 6
+      register: process_info
+
+    - name: Display process info
+      debug:
+        var: process_info.stdout
+
+    - name: Restart httpd if high CPU
+      when: "'httpd' in process_info.stdout"
+      service:
+        name: httpd
+        state: restarted
