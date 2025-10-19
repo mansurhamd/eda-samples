@@ -1,8 +1,8 @@
 ---
-- name: CPU High Alert received
+- name: CPU Warning Alert received
   hosts: localhost
   gather_facts: no
   tasks:
     - name: Show event info
-      debug:
-        msg: "Received CPU_HIGH alert from {{ event.body.host }} (CPU={{ event.body.cpu }}%)"
+      ansible.builtin.debug:
+        msg: "Received CPU_WARN alert from {{ event.payload.host }} (CPU={{ event.payload.cpu }}%)"
