@@ -5,4 +5,4 @@
   tasks:
     - name: Show event info
       ansible.builtin.debug:
-        msg: "Received CPU_WARN alert from {{ event.payload.host }} (CPU={{ event.payload.cpu }}%)"
+        msg: "Received CPU_WARN alert from {{ host }} (CPU={{ cpu }}%)"
