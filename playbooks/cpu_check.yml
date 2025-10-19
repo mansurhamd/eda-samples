@@ -1,8 +1,8 @@
----
+x  ---
 - name: CPU Warning Alert received
   hosts: localhost
   gather_facts: no
   tasks:
     - name: Show event info
       ansible.builtin.debug:
-        msg: "Received CPU_WARN alert from {{ host }} (CPU={{ cpu }}%)"
+        msg: "Received CPU_WARN alert from {{ event.payload.host }} (CPU={{ event.payload.cpu }}%)"
