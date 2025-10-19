@@ -1,12 +1,12 @@
 ---
-# Correct rulebook with proper indentation for rules
+# Corrected and verified rulebook format
 - name: CPU Alert Demo
   hosts: all
   sources:
     - ansible.eda.webhook:
         host: 0.0.0.0
         port: 5000
-  rules: # This is a list of dictionaries.
+  rules: # This must be a list of dictionaries.
     - name: CPU High Alert Rule
       condition: event.body.alert_type == "CPU_HIGH"
       action:
