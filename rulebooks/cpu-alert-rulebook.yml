@@ -7,23 +7,27 @@
         port: 5000
   rules:
     - name: CPU High Alert Rule
-      condition: event.body.alert_type == "CPU_HIGH"
+      condition: event.payload.alert_type == "CPU_HIGH"
       action:
         run_job_template:
           name: "CPU High Alert Remediation"
           organization: "Default"
           extra_vars:
-            event: "{{ event }}"
+            host: "{{ event.payload.host }}"
+            cpu: "{{ event.payload.cpu }}"
 
     - name: CPU Warning Alert Rule
-      condition: event.body.alert_type == "CPU_WARN"
+      condition: event.payload.alert_type == "CPU_WARN"
       action:
         run_job_template:
           name: "CPU Alert Info"
           organization: "Default"
           extra_vars:
-            event: "{{ event }}"
+            host: "{{ event.payload.host }}"
+            cpu: "{{ event.payload.cpu }}"
 
     - name: CPU Normal Rule
-      condition: event.body.alert_type == "CPU_NORMAL"
-      # The "action" block is removed for this rule
+      condition: event.payload.alert_type == "CPU_NORMAL"
+      action:
+        debug:
+          msg: "CPU is normal for {{ event.payload.host }}"
