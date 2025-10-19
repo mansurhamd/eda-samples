@@ -16,10 +16,3 @@
       ansible.builtin.shell: "pkill stress-ng"
       when: "'stress-ng' in process_info.stdout"
       ignore_errors: true
-      # ignore_errors is a good practice here in case stress-ng isn't running.
-
-    - name: Restart httpd if high CPU
-      ansible.builtin.service:
-        name: httpd
-        state: restarted
-      when: "'httpd' in process_info.stdout"
