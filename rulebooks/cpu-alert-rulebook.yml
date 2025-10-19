@@ -26,4 +26,4 @@
 
     - name: CPU Normal Rule
       condition: event.body.alert_type == "CPU_NORMAL"
-      action: []
+      # The "action" block is removed for this rule
