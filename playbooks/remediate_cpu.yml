@@ -1,19 +1,25 @@
 ---
 - name: Auto remediate high CPU usage
-  hosts: "{{ event.body.host | default('localhost') }}"
+  hosts: "{{ event.payload.host | default('localhost') }}"
   become: yes
   gather_facts: no
   tasks:
-    - name: Gather top 5 CPU processes
-      shell: ps -eo pid,comm,%cpu --sort=-%cpu | head -n 6
+    - name: Gather top CPU processes
+      ansible.builtin.shell: "ps -eo pid,comm,%cpu --sort=-%cpu"
       register: process_info
 
     - name: Display process info
-      debug:
-        var: process_info.stdout
+      ansible.builtin.debug:
+        var: process_info.stdout_lines
+
+    - name: Kill stress-ng process if high CPU
+      ansible.builtin.shell: "pkill stress-ng"
+      when: "'stress-ng' in process_info.stdout"
+      ignore_errors: true
+      # ignore_errors is a good practice here in case stress-ng isn't running.
 
     - name: Restart httpd if high CPU
-      when: "'httpd' in process_info.stdout"
-      service:
+      ansible.builtin.service:
         name: httpd
         state: restarted
+      when: "'httpd' in process_info.stdout"
